@@ -144,7 +144,6 @@
                 </thead>
                 <tbody
                   class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-                  v-for="index in 100" :key="index"
                 >
                   <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
@@ -197,6 +196,6 @@
 </template>
 
 <script setup>
-import Sidebar from '@/views/user/layouts/Sidebar.vue';
-import Navbar from '@/views/user/layouts/Navbar.vue';
+import Sidebar from '@/views/admin/layouts/Sidebar.vue';
+import Navbar from '@/views/admin/layouts/Navbar.vue';
 </script>

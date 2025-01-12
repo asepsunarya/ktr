@@ -35,7 +35,7 @@
             <span v-if="errors.confirmPassword" class="text-red-500">{{ errors.confirmPassword }}</span>
           </div>
           <div v-if="errorMessage" class="text-red-500">{{ errorMessage }}</div>
-          <button type="submit" class="w-full px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700">Daftar</button>
+          <button type="submit" class="w-full px-4 py-2 mt-4 text-white bg-indigo-500 rounded hover:bg-indigo-700">Daftar</button>
         </div>
       </form>
     </div>

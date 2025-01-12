@@ -1,18 +1,19 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
+import LoginAdminView from '@/views/LoginAdminView.vue'
 import RegisterView from '@/views/RegisterView.vue'
-import DashboardView from '@/views/user/DashboardView.vue'
-import KtrRequestView from '../views/user/KtrRequestView.vue'
+import UserRoutes from './user'
+import AdminRoutes from './admin'
 
 const routes = [
   { path: '/', component: HomeView },
   { path: '/login', component: LoginView },
+  { path: '/login/admin', component: LoginAdminView },
   { path: '/register', component: RegisterView },
 
-  // user routes
-  { path: '/user/dashboard', component: DashboardView },
-  { path: '/user/request', component: KtrRequestView },
+  ...UserRoutes,
+  ...AdminRoutes,
 ]
 
 const router = createRouter({

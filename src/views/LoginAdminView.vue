@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
     <div class="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md">
-      <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">Login</h2>
+      <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">Login Admin</h2>
       <form @submit.prevent="login">
         <div class="space-y-4">
           <div>
@@ -46,14 +46,14 @@ const login = async () => {
     return
   }
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login/admin`, {
       email: email.value,
       password: password.value
     })
     if (response.status == 200) {
-      localStorage.setItem('isLogin', true)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
-      router.push('/user/dashboard')
+      localStorage.setItem('isLoginAdmin', true)
+      localStorage.setItem('admin', JSON.stringify(response.data.admin))
+      router.push('/admin/dashboard')
     } else {
       errorMessage.value = response.data.message || 'Login failed'
     }
