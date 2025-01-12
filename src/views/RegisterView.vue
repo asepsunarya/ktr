@@ -46,6 +46,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useLoading } from 'vue-loading-overlay'
+
+const $loading = useLoading()
 
 function useForm() {
   const form = ref({
@@ -97,6 +100,7 @@ const register = async () => {
   if (!validateForm()) {
     return
   }
+  const loader = $loading.show({isFullPage: true, loader: 'dots', color: '#4B5563'});
   try {
     const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, {
       name: form.value.name,
@@ -112,6 +116,8 @@ const register = async () => {
     }
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'Terjadi kesalahan'
+  } finally {
+    loader.hide()
   }
 }
 </script>

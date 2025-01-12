@@ -167,6 +167,10 @@ import Sidebar from '@/views/admin/layouts/Sidebar.vue';
 import Navbar from '@/views/admin/layouts/Navbar.vue';
 import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
+import { useLoading } from 'vue-loading-overlay'
+import Swal from 'sweetalert2'
+
+const $loading = useLoading()
 
 
 const settings = ref([])
@@ -250,6 +254,7 @@ const updateSettings = async () => {
   if (!validateForm()) {
     return
   }
+  const loader = $loading.show({isFullPage: true, loader: 'dots', color: '#4B5563'});
   try {
     for (let key in form) {
       const id = settings.value.find(setting => setting.key === key).id
@@ -258,13 +263,29 @@ const updateSettings = async () => {
         value: form[key]
       })
       if (response.status == 200) {
-        errorMessage.value = 'Pengaturan berhasil diperbarui'
+        errorMessage.value = ''
       } else {
         errorMessage.value = response.data.message || 'Pengaturan gagal diperbarui'
       }
     }
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'Terjadi kesalahan'
+  } finally {
+    loader.hide()
+  }
+  
+  if (errorMessage.value === '') {
+    Swal.fire({
+      title: 'Berhasil!',
+      text: 'Pengaturan berhasil diperbarui',
+      icon: 'success'
+    })
+  } else {
+    Swal.fire({
+      title: 'Gagal!',
+      text: errorMessage.value,
+      icon: 'error'
+    })
   }
 }
 

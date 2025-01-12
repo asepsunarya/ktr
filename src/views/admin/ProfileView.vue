@@ -44,7 +44,10 @@ import Sidebar from '@/views/admin/layouts/Sidebar.vue';
 import Navbar from '@/views/admin/layouts/Navbar.vue';
 import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
+import { useLoading } from 'vue-loading-overlay'
+import Swal from 'sweetalert2'
 
+const $loading = useLoading()
 
 const admin = ref({})
 
@@ -80,17 +83,31 @@ const updateAdmin = async () => {
   if (!validateForm()) {
     return
   }
+  const loader = $loading.show({isFullPage: true, loader: 'dots', color: '#4B5563'});
   try {
     const id = admin.value.id
-    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/admins/${id}`, form)
+    const data = {
+      email: form.email,
+      password: form.password,
+    }
+    if (!form.password) {
+      delete data.password
+    }
+    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/admins/${id}`, data)
     if (response.status == 200) {
-      errorMessage.value = 'Profil berhasil diperbarui'
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Profil berhasil diperbarui',
+        icon: 'success'
+      })
     } else {
       errorMessage.value = response.data.message || 'Profil gagal diperbarui'
     }
   } catch (error) {
     console.log(error, 'error')
     errorMessage.value = error.response?.data?.message || 'Terjadi kesalahan'
+  } finally {
+    loader.hide()
   }
 }
 

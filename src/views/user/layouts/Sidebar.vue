@@ -3,7 +3,7 @@
       class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
     >
       <div class="py-4 text-gray-500 dark:text-gray-400">
-        <a href="/user/dashboard" class="ml-6 relative flex items-center inline-block h-5 h-full font-black leading-none">
+        <a href="/user/dashboard" class="ml-6 relative flex items-center h-5 font-black leading-none">
             <svg class="w-auto h-6 text-indigo-600 fill-current" viewBox="0 0 194 116"
                 xmlns="http://www.w3.org/2000/svg">
                 <g fill-rule="evenodd">
@@ -12,7 +12,7 @@
                     <path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z" />
                 </g>
             </svg>
-            <span class="ml-3 text-xl text-gray-800">KTR<span class="text-pink-500">.</span></span>
+            <span class="ml-3 text-xl text-gray-800 dark:text-gray-300">KTR<span class="text-pink-500">.</span></span>
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">

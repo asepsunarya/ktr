@@ -26,7 +26,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useLoading } from 'vue-loading-overlay'
 
+const $loading = useLoading()
 const email = ref('')
 const password = ref('')
 const errors = ref({})
@@ -45,6 +47,7 @@ const login = async () => {
   if (Object.keys(errors.value).length > 0) {
     return
   }
+  const loader = $loading.show({isFullPage: true, loader: 'dots', color: '#4B5563'});
   try {
     const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login/admin`, {
       email: email.value,
@@ -59,6 +62,8 @@ const login = async () => {
     }
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'An error occurred'
+  } finally {
+    loader.hide()
   }
 }
 </script>
