@@ -169,7 +169,7 @@
             <button @click="toggleDraw" class="w-[100px] px-4 mb-12 text-indigo-500 border-indigo-500 rounded ">{{ isDrawing ? 'Selesai' : 'Ubah' }}</button>
             <button @click="resetDraw" class="w-[100px] px-4 mb-12 text-orange-500 border-orange-500 rounded ">Reset</button>
           </div>
-          <button @click.stop="requestKTR" type="submit" class="w-full px-4 py-2 mt-2 mb-12 text-white bg-indigo-500 rounded hover:bg-indigo-700">Simpan</button>
+          <button @click.stop="updateKtrRequest" type="submit" class="w-full px-4 py-2 mt-2 mb-12 text-white bg-indigo-500 rounded hover:bg-indigo-700">Simpan</button>
         </div>
       </main>
     </div>
@@ -213,7 +213,8 @@ const form = {
   act_as: 'pemilik',
   job: null,
   road: null,
-  sign: null
+  sign: null,
+  user_id: null
 }
 
 const fetchRegencies = async () => {
@@ -246,7 +247,7 @@ const fetchSubdistricts = async () => {
 
 const fetchKtrRequest = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/${route .params.id}`)
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/${route.params.id}`)
     ktrRequest.value = response.data
     const ktrRequestKey = Object.keys(response.data)
     ktrRequestKey.forEach(key => {
@@ -259,50 +260,39 @@ const fetchKtrRequest = async () => {
   }
 }
 
-const validateForm = () => {
-  if (!form.address || !form.regency_id || !form.district_id || !form.subdistrict_id || !form.land_area || !form.land_status || !form.purpose || !form.ktp_file || !form.activity_location || !form.land_document || !form.act_as || !form.job || !form.road || !form.sign) {
-    Swal.fire({
-      icon: 'info',
-      title: 'Lengkapi Form',
-      text: 'Form tidak boleh kosong!',
-    })
-    return false
-  }
-  return true
-}
 
-const requestKTR = async () => {
-  if (!validateForm()) {
-    return
-  }
+const updateKtrRequest = async () => {
   const loader = $loading.show({isFullPage: true, loader: 'dots', color: '#4B5563'});
 
   const formData = new FormData()
-  formData.append('address', form.address)
-  formData.append('regency_id', form.regency_id)
-  formData.append('district_id', form.district_id)
-  formData.append('subdistrict_id', form.subdistrict_id)
-  formData.append('latitude', form.latitude)
-  formData.append('longitude', form.longitude)
-  formData.append('land_area', form.land_area)
-  formData.append('land_status', form.land_status)
-  formData.append('purpose', form.purpose)
-  formData.append('ktp_file', form.ktp_file)
-  formData.append('activity_location', form.activity_location)
-  formData.append('land_document', form.land_document)
-  formData.append('user_id', user.id)
-  formData.append('act_as', form.act_as)
-  formData.append('job', form.job)
-  formData.append('road', form.road)
-  formData.append('sign', form.sign)
+   // Append only changed fields to formData
+   const appendIfChanged = (key, value) => {
+    if (value !== ktrRequest.value[key]) {
+      formData.append(key, value);
+    }
+  };
+
+  appendIfChanged('address', form.address);
+  appendIfChanged('regency_id', form.regency_id);
+  appendIfChanged('district_id', form.district_id);
+  appendIfChanged('subdistrict_id', form.subdistrict_id);
+  appendIfChanged('latitude', form.latitude);
+  appendIfChanged('longitude', form.longitude);
+  appendIfChanged('land_area', form.land_area);
+  appendIfChanged('land_status', form.land_status);
+  appendIfChanged('purpose', form.purpose);
+  appendIfChanged('ktp_file', form.ktp_file);
+  appendIfChanged('activity_location', form.activity_location);
+  appendIfChanged('land_document', form.land_document);
+  appendIfChanged('user_id', form.user_id);
+  appendIfChanged('act_as', form.act_as);
+  appendIfChanged('job', form.job);
+  appendIfChanged('road', form.road);
+  appendIfChanged('sign', form.sign);
 
 
   try {
-    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/${route.params.id}`, formData)
     // router.push(`/admin/payments/${response.data.payment.id}`)
   } catch (error) {
     Swal.fire({
@@ -319,7 +309,7 @@ onMounted(() => {
   fetchRegencies()
   fetchKtrRequest()
   if (ktrRequest.value.user) {
-    form.user_id = ktrRequest.value.user.id
+    form.user_id = ktrRequest.value.user_id
   }
 })
 

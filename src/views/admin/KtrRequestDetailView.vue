@@ -28,7 +28,7 @@
               </div>
               <div class="flex gap-2">
                 <a :href="`/admin/request/print/${route.params.id}`" target="_blank" class="bg-indigo-500 hover:bg-indigo-700 text-white py-1 px-3 rounded">Cetak</a>
-                <a :href="`/admin/request/edit/${route.params.id}`" class="border border-indigo-500 text-indigo-500 hover:bg-blue-700 py-1 px-3 rounded">Ubah</a>
+                <!-- <a :href="`/admin/request/edit/${route.params.id}`" class="border border-indigo-500 text-indigo-500 hover:bg-blue-700 py-1 px-3 rounded">Ubah</a> -->
               </div>
             </div>
             <div class="bg-white shadow px-8 py-4 rounded">

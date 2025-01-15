@@ -156,7 +156,7 @@ const fetchKtrRequest = async () => {
 onMounted(() => {
   fetchKtrRequest()
   setTimeout(() => {
-    // window.print();
+    window.print();
   }, 2000); // Delay 2 detik
 })
 
