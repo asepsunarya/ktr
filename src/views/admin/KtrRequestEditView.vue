@@ -14,7 +14,7 @@
           <h2
             class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
           >
-            Form Permohonan
+            Ubah Permohonan
           </h2>
 
 
@@ -28,17 +28,17 @@
           >
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama</label>
-              <input v-model="user.name" readonly type="text" id="name" class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300" required />
+              <div class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">{{ ktrRequest?.user?.name }}</div>
             </div>
             
             <div>
               <label for="nik" class="block text-sm font-medium text-gray-700 dark:text-gray-300">NIK</label>
-              <input v-model="user.ktp" readonly type="number" id="nik" class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300" required />
+              <div class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">{{ ktrRequest?.user?.ktp }}</div>
             </div>
             
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nomor WhatsApp</label>
-              <input v-model="user.phone" readonly type="number" id="phone" class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300" required />
+              <div class="w-full px-3 py-2 mt-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">{{ ktrRequest?.user?.phone }}</div>
             </div>
             
             <div>
@@ -160,7 +160,10 @@
             :class="{'bg-gray-200 dark:bg-gray-700 pointer-events-none': !isDrawing, 'bg-white dark:bg-white': isDrawing}"
             class="px-4 py-3 mb-8 space-y-5 h-[300px] w-[500px] bg-white rounded-lg shadow-md dark:bg-gray-800 cursor-"
           >
-            <VueSignaturePad width="500px" height="300px" ref="signaturePad" :disabled="!isDrawing" />
+            <div v-if="form.sign == ktrRequest.sign && !isDrawing" class="flex justify-center items-center h-full">
+              <img :src="ktrRequest.sign" alt="">
+            </div>
+            <VueSignaturePad v-else width="500px" height="300px" ref="signaturePad" :disabled="!isDrawing" />
           </div>
           <div class="flex gap-x-4">
             <button @click="toggleDraw" class="w-[100px] px-4 mb-12 text-indigo-500 border-indigo-500 rounded ">{{ isDrawing ? 'Selesai' : 'Ubah' }}</button>
@@ -174,18 +177,20 @@
 </template>
 
 <script setup>
-import Sidebar from '@/views/user/layouts/Sidebar.vue';
-import Navbar from '@/views/user/layouts/Navbar.vue';
+import Sidebar from '@/views/admin/layouts/Sidebar.vue';
+import Navbar from '@/views/admin/layouts/Navbar.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useLoading } from 'vue-loading-overlay'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const $loading = useLoading()
 const router = useRouter()
+const route = useRoute()
 
-const user = JSON.parse(localStorage.getItem('user'))
+const ktrRequest = ref({})
 const regencies = ref([])
 const districts = ref([])
 const subdistricts = ref([])
@@ -238,6 +243,22 @@ const fetchSubdistricts = async () => {
   }
 }
 
+
+const fetchKtrRequest = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/${route .params.id}`)
+    ktrRequest.value = response.data
+    const ktrRequestKey = Object.keys(response.data)
+    ktrRequestKey.forEach(key => {
+      if (form[key] !== undefined) {
+        form[key] = response.data[key]
+      }
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const validateForm = () => {
   if (!form.address || !form.regency_id || !form.district_id || !form.subdistrict_id || !form.land_area || !form.land_status || !form.purpose || !form.ktp_file || !form.activity_location || !form.land_document || !form.act_as || !form.job || !form.road || !form.sign) {
     Swal.fire({
@@ -277,12 +298,12 @@ const requestKTR = async () => {
 
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests`, formData, {
+    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
-    router.push(`/user/payments/${response.data.payment.id}`)
+    // router.push(`/admin/payments/${response.data.payment.id}`)
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -296,6 +317,10 @@ const requestKTR = async () => {
 
 onMounted(() => {
   fetchRegencies()
+  fetchKtrRequest()
+  if (ktrRequest.value.user) {
+    form.user_id = ktrRequest.value.user.id
+  }
 })
 
 
@@ -304,6 +329,7 @@ const handleFileChange = (event, field) => {
 };
 
 const toggleDraw = () => {
+  form.sign = null
   if (isDrawing.value) {
     const canvas = signaturePad.value.saveSignature()
     if (!canvas.isEmpty) {
@@ -316,4 +342,5 @@ const toggleDraw = () => {
 const resetDraw = () => {
   signaturePad.value.clearSignature()
 }
+
 </script>

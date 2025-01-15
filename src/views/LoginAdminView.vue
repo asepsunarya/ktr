@@ -56,7 +56,7 @@ const login = async () => {
     if (response.status == 200) {
       localStorage.setItem('isLoginAdmin', true)
       localStorage.setItem('admin', JSON.stringify(response.data.admin))
-      router.push('/admin/dashboard')
+      router.push('/admin/request')
     } else {
       errorMessage.value = response.data.message || 'Login failed'
     }
