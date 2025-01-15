@@ -56,7 +56,7 @@ const login = async () => {
     if (response.status == 200) {
       localStorage.setItem('isLogin', true)
       localStorage.setItem('user', JSON.stringify(response.data.user))
-      router.push('/user/dashboard')
+      router.push('/user/request')
     } else {
       errorMessage.value = response.data.message || 'Login failed'
     }

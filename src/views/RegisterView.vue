@@ -109,8 +109,10 @@ const register = async () => {
       email: form.value.email,
       password: form.value.password
     })
-    if (response.data.success) {
-      router.push('/login')
+    if (response.status == 200) {
+      localStorage.setItem('isLogin', true)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      router.push('/user/request')
     } else {
       errorMessage.value = response.data.message || 'Pendaftaran gagal'
     }

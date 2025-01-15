@@ -4,7 +4,7 @@
       <div class="container mx-auto px-4 py-12 flex justify-between items-center">
         <div class="text-2xl font-bold">KTR</div>
         <nav class="space-x-4">
-          <router-link to="/user/dashboard" v-if="isLogin">Home</router-link>
+          <router-link to="/user/request" v-if="isLogin">Home</router-link>
           <div class="flex gap-4" v-else>
             <router-link to="/login">Login</router-link>
             <router-link to="/register">Register</router-link>

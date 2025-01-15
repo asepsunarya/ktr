@@ -14,7 +14,7 @@
           <h2
             class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
           >
-            Dashboard
+            Permohonan
           </h2>
           <!-- Cards -->
           <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -35,12 +35,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Total clients
+                  Total Permohonan
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  6389
+                {{ statistics.total_requests }}
                 </p>
               </div>
             </div>
@@ -63,12 +63,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Account balance
+                  Permohonan Disetujui
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  $ 46,760.89
+                  {{ statistics.approved_requests }}
                 </p>
               </div>
             </div>
@@ -77,7 +77,7 @@
               class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
             >
               <div
-                class="p-3 mr-4 text-indigo-500 bg-indigo-100 rounded-full dark:text-indigo-100 dark:bg-indigo-500"
+                class="p-3 mr-4 text-red-500 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-500"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -89,12 +89,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  New sales
+                  Permohonan Ditolak
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  376
+                {{ statistics.rejected_requests }}
                 </p>
               </div>
             </div>
@@ -117,14 +117,30 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Pending contacts
+                  Permohonan Pending
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  35
+                  {{ statistics.pending_requests }}
                 </p>
               </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <h3
+              class="my-6 text-xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              List Permohonan
+            </h3>
+            <div class="flex gap-4 ">
+              <a
+                href="/user/request/create"
+                class="cursor-pointer px-4 py-1 text-sm font-semibold text-white bg-indigo-500 rounded-lg hover:bg-indigo-700"
+              >
+                Buat Baru
+              </a>
             </div>
           </div>
 
@@ -136,55 +152,49 @@
                   <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                   >
-                    <th class="px-4 py-3">Client</th>
-                    <th class="px-4 py-3">Amount</th>
+                    <th class="px-4 py-3">Nama</th>
+                    <th class="px-4 py-3">Keperluan</th>
                     <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
+                    <th class="px-4 py-3">Tanggal Permohonan</th>
                   </tr>
                 </thead>
                 <tbody
                   class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                 >
-                  <tr class="text-gray-700 dark:text-gray-400">
-                    <td class="px-4 py-3">
-                      <div class="flex items-center text-sm">
-                        <!-- Avatar with inset shadow -->
-                        <div
-                          class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                  <template v-if="ktrRequests.length > 0">
+                    <tr v-for="(ktrRequest, index) in ktrRequests" :key="index" class="text-gray-700 dark:text-gray-400 cursor-pointer">
+                      <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                          <div>
+                            <p class="font-semibold">{{ ktrRequest.user.name }}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                              {{ ktrRequest.user.phone }}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        {{ ktrRequest.purpose }}
+                      </td>
+                      <td class="px-4 py-3 text-xs">
+                        <span
+                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
-                          <img
-                            class="object-cover w-full h-full rounded-full"
-                            src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                            alt=""
-                            loading="lazy"
-                          />
-                          <div
-                            class="absolute inset-0 rounded-full shadow-inner"
-                            aria-hidden="true"
-                          ></div>
-                        </div>
-                        <div>
-                          <p class="font-semibold">Hans Burger</p>
-                          <p class="text-xs text-gray-600 dark:text-gray-400">
-                            10x Developer
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                      $ 863.45
-                    </td>
-                    <td class="px-4 py-3 text-xs">
-                      <span
-                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                      >
-                        Approved
-                      </span>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                      6/10/2020
-                    </td>
-                  </tr>
+                          {{ ktrRequest.status }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-sm">
+                        {{ ktrRequest.created_at.split('T')[0] }}
+                      </td>
+                    </tr>
+                  </template>
+                  <template v-else>
+                    <tr>
+                      <td class="px-4 py-3" colspan="4">
+                        <p class="text-center text-gray-600 dark:text-gray-400">Belum ada data</p>
+                      </td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
@@ -198,4 +208,24 @@
 <script setup>
 import Sidebar from '@/views/user/layouts/Sidebar.vue';
 import Navbar from '@/views/user/layouts/Navbar.vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+
+const user = JSON.parse(localStorage.getItem('user'))
+const statistics = ref({})
+const ktrRequests = ref([])
+
+const fetchStatistics = async () => {
+  const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/user/${user.id}/stats`)
+  statistics.value = data
+}
+
+const fetchRequests = async () => {
+  const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/user/${user.id}`)
+  ktrRequests.value = data
+}
+onMounted(() => {
+  fetchStatistics()
+  fetchRequests()
+})
 </script>
