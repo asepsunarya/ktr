@@ -17,6 +17,7 @@
         <ul class="mt-6">
           <li class="relative px-6 py-3">
             <span
+              v-if="route === 'request'"
               class="absolute inset-y-0 left-0 w-1 bg-indigo-600 rounded-tr-lg rounded-br-lg"
               aria-hidden="true"
             ></span>
@@ -44,6 +45,11 @@
         </ul>
         <ul>
           <li class="relative px-6 py-3">
+            <span
+              v-if="route === 'payment'"
+              class="absolute inset-y-0 left-0 w-1 bg-indigo-600 rounded-tr-lg rounded-br-lg"
+              aria-hidden="true"
+            ></span>
             <a
               class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               href="/admin/payment"
@@ -69,3 +75,9 @@
       </div>
     </aside>
 </template>
+
+<script setup> 
+import { computed } from 'vue'
+
+const route = computed(() => window.location.pathname.split('/')[2])
+</script>

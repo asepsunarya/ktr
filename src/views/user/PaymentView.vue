@@ -206,8 +206,8 @@
 </template>
 
 <script setup>
-import Sidebar from '@/views/admin/layouts/Sidebar.vue';
-import Navbar from '@/views/admin/layouts/Navbar.vue';
+import Sidebar from '@/views/user/layouts/Sidebar.vue';
+import Navbar from '@/views/user/layouts/Navbar.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 const user = JSON.parse(localStorage.getItem('user'))
