@@ -68,12 +68,12 @@
                       <tr>
                         <td width="200">Nama</td>
                         <td width="10">:</td>
-                        <td>{{ ktrRequest.user.name }}</td>
+                        <td>{{ ktrRequest?.user?.name }}</td>
                       </tr>
                       <tr>
                         <td width="200">NIK</td>
                         <td width="10">:</td>
-                        <td>{{ ktrRequest.user.ktp }}</td>
+                        <td>{{ ktrRequest?.user?.ktp }}</td>
                       </tr>
                       <tr>
                         <td width="200">Pekerjaan</td>
@@ -88,7 +88,7 @@
                       <tr>
                         <td width="200">No. Telp</td>
                         <td width="10">:</td>
-                        <td>{{ ktrRequest.user.phone }}</td>
+                        <td>{{ ktrRequest?.user?.phone }}</td>
                       </tr>
                       <tr>
                         <td width="200">Bertindak selaku</td>
