@@ -535,7 +535,7 @@
                         </div>
 
                         <div class="flex items-center block p-8 uppercase">
-                            <a href="#_"
+                            <a href="/register"
                                 class="block w-full px-6 py-4 mt-3 text-lg font-semibold text-center text-white bg-gray-900 rounded shadow-sm hover:bg-indigo-600">Daftar Sekarang</a>
                         </div>
                     </div>
