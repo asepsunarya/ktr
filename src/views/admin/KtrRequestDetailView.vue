@@ -21,9 +21,9 @@
               <div>
                 <span class="font-semibold">Status Permohonan:&nbsp;</span>
                 <select @change="updateStatus" v-model="status" name="" id="" class="cursor-pointer">
-                  <option value="approved">Disetujui</option>
-                  <option value="pending">Sedang Diproses</option>
-                  <option value="rejected">Ditolak</option>
+                  <option value="pending">Dalam Proses Verifikasi</option>
+                  <option value="approved">Dalam Proses Penerbitan KTR</option>
+                  <option value="rejected">KTR Selesai Diterbitkan</option>
                 </select>
               </div>
               <div class="flex gap-2">

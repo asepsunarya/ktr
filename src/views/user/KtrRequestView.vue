@@ -63,12 +63,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Permohonan Disetujui
+                  Dalam Proses Verifikasi
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  {{ statistics.approved_requests }}
+                  {{ statistics.pending_requests }}
                 </p>
               </div>
             </div>
@@ -77,7 +77,7 @@
               class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
             >
               <div
-                class="p-3 mr-4 text-red-500 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-500"
+                class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -89,12 +89,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Permohonan Ditolak
+                  Dalam Proses Penerbitan KTR
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                {{ statistics.rejected_requests }}
+                {{ statistics.approved_requests }}
                 </p>
               </div>
             </div>
@@ -117,12 +117,12 @@
                 <p
                   class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                  Permohonan Sedang Diproses
+                  KTR Selesai Diterbitkan
                 </p>
                 <p
                   class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                  {{ statistics.pending_requests }}
+                  {{ statistics.rejected_requests }}
                 </p>
               </div>
             </div>
@@ -180,7 +180,7 @@
                         <span
                           class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
-                          {{ ktrRequest.status }}
+                          {{ ktrRequest.status == 'rejected' ? 'finished': ktrRequest.status }}
                         </span>
                       </td>
                       <td class="px-4 py-3 text-sm">
