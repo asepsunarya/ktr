@@ -1,5 +1,25 @@
-# Vue 3 + Vite
+# Vue.js Project Setup Guide
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Panduan ini berisi langkah-langkah untuk menginstal dependensi, menjalankan proyek, dan mengonfigurasi file lingkungan.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+---
+
+## Prasyarat
+Pastikan Anda sudah menginstal:
+- **Node.js** (minimal versi 14.x atau lebih baru)  
+  [Unduh Node.js](https://nodejs.org)
+- **NPM** (biasanya sudah termasuk saat Anda menginstal Node.js)
+
+---
+
+## Langkah-Langkah Instalasi
+
+1. **Download Repository**
+   Download repository proyek ini ke komputer Anda
+
+2. **Install Dependensi Jalankan perintah berikut untuk menginstal semua dependensi proyek:**
+   npm install
+3. **Konfigurasi File Lingkungan Salin file .env.production dan buat salinan bernama .env:** 
+   cp .env.production .env
+4. **Jalankan Proyek dalam Mode Development Untuk menjalankan proyek dalam mode development, gunakan perintah:**
+   npm run dev
