@@ -162,7 +162,7 @@
                   class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                 >
                   <template v-if="ktrRequests.length > 0">
-                    <tr v-for="(ktrRequest, index) in ktrRequests" :key="index" class="text-gray-700 dark:text-gray-400 cursor-pointer">
+                    <tr @click="toDetail(ktrRequest.id)" v-for="(ktrRequest, index) in ktrRequests" :key="index" class="text-gray-700 dark:text-gray-400 cursor-pointer">
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                           <div>
@@ -210,7 +210,9 @@ import Sidebar from '@/views/user/layouts/Sidebar.vue';
 import Navbar from '@/views/user/layouts/Navbar.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const user = JSON.parse(localStorage.getItem('user'))
 const statistics = ref({})
 const ktrRequests = ref([])
@@ -223,6 +225,9 @@ const fetchStatistics = async () => {
 const fetchRequests = async () => {
   const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/ktr-requests/user/${user.id}`)
   ktrRequests.value = data
+}
+const toDetail = (id) => {
+  router.push(`/user/request/${id}`)
 }
 onMounted(() => {
   fetchStatistics()
